@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: ping-server-cron
+  annotations:
+    jobsync.rzp.io/enabled: "True"
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: ping-server-cron
+            image: venkatvghub/ping_server:5820b417d645f746ad8268f2fbefeb1bd8e5bd4a
+            args:
+            - /go/webserver
+            - -command
+          restartPolicy: OnFailure
+
+
