@@ -3,7 +3,7 @@ Build a simple app for monitoring deployment changes. Available in the sample-ap
 Building the sample app
 ```
 eval $(minikube docker-env)
-docker build -t razorpay/ping_server:v3 -f Dockerfile .
+docker build -t venkatvghub/ping_server:v3 -f Dockerfile .
 ```
 Follow updating the image from https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/
 
