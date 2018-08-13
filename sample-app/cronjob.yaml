@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: ping-server-cron
   annotations:
-    jobsync.rzp.io/enabled: "True"
+    jobsync.k8s.io/enabled: "True"
 spec:
   schedule: "*/1 * * * *"
   jobTemplate:
