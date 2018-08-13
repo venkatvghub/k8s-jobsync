@@ -2,11 +2,13 @@ package main
 
 import (
 	"encoding/json"
-	"log"
+	"os"
 	"reflect"
 	"strconv"
 	"sync"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
 
 	v1beta1 "k8s.io/api/apps/v1beta1"
 	batchv1beta1 "k8s.io/api/batch/v1beta1"
@@ -44,6 +46,11 @@ func NewDeploymentController(client *kubernetes.Clientset, opts map[string]strin
 	deploymentWatcher := &DeploymentController{}
 
 	dryRun, _ := strconv.ParseBool(opts["dryRun"])
+	namespace := opts["namespace"]
+	if namespace == "" {
+		log.Error("Namespace is not defined or empty. Cannot Proceed")
+		os.Exit(1)
+	}
 	version, err := client.ServerVersion()
 
 	if err != nil {
@@ -140,8 +147,12 @@ func (c *DeploymentController) applyJobDeployment(deployment *v1beta1.Deployment
 	log.Printf("Found Deployment %s with Annotation", deployment.Name)
 	jobImageMap := c.buildJobMap(deployment)
 	log.Print("CALLING SYNC_CRON_JOB")
-	c.syncCronJob(*jobImageMap, deployment, namespace)
-	log.Printf("Deployment Occured for Deployment:%s, NameSpace:%s", deployment.Name, deployment.Namespace)
+	err := c.syncCronJob(*jobImageMap, deployment, namespace)
+	if err != nil {
+		log.Printf("Sync Cronjob Error:%s", err)
+	} else {
+		log.Printf("Deployment Occured for Deployment:%s, NameSpace:%s", deployment.Name, deployment.Namespace)
+	}
 }
 
 func (c *DeploymentController) syncCronJob(jobs map[string]string, deployment *v1beta1.Deployment, namespace string) error {

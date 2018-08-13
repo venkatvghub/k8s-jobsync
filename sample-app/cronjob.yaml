@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
           - name: ping-server-cron
-            image: venkatvghub/ping_server:5820b417d645f746ad8268f2fbefeb1bd8e5bd4a
+            image: venkatvghub/ping_server:v3
             args:
             - /go/webserver
             - -command

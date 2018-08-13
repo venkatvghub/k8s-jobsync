@@ -27,7 +27,7 @@ spec:
         run: ping-server
     spec:
       containers:
-      - image: venkatvghub/ping_server:some_random_commit
+      - image: venkatvghub/ping_server:874f2f67f056bf7a75fea809ca596e81f4acbdd8
         imagePullPolicy: IfNotPresent
         name: ping-server
         ports:
