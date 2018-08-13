@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   annotations:
     deployment.kubernetes.io/revision: "13"
-    jobsync.rzp.io/enabled: "True"
-    jobsync.rzp.io/jobs: |
+    jobsync.k8s.io/enabled: "True"
+    jobsync.k8s.io/jobs: |
       {"jobs":["ping-server-cron"]}
   name: ping-server
   namespace: default
@@ -27,7 +27,7 @@ spec:
         run: ping-server
     spec:
       containers:
-      - image: venkatvghub/ping_server:some_random_commit
+      - image: venkatvghub/ping_server:874f2f67f056bf7a75fea809ca596e81f4acbdd8
         imagePullPolicy: IfNotPresent
         name: ping-server
         ports:
